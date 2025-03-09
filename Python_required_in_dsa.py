@@ -185,4 +185,196 @@ max_sum = max(max_sum, curr_sum)
 
 for i in range(j, len(nums),-1,-1):
 
+# Dont initialise the result to 0 before the loop when dealing with negative numbers, use res = max(nums)
+
+res = max(nums)
+
+# Dynamic Programming (DP) is a technique used to solve problems efficiently by breaking them down into smaller overlapping subproblems and 
+# solving each only once while storing the results for reuse.
+# For example in the below code, we mentioned two values - min_curr and max_curr to break down the problem 
+
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        res = max(nums)
+
+        curr_min,curr_max = 1, 1
+
+        for n in nums:
+            if n == 0:
+                curr_min,curr_max = 1, 1
+                continue
+            tmp = curr_max * n
+            curr_max = max(n * curr_max, n * curr_min, n)
+            curr_min = min(tmp, n * curr_min, n)
+            res = max(res, curr_max)
+        return res
+
+# Instead of recalculating every subarray’s product, 
+# we dynamically update the maximum and minimum products at each step using previous results, 
+# making the solution efficient (O(n) time complexity) and avoiding redundant work.
+
+# Now we use the sliding window approach for sub strings
+
+#To find non duplicate values instantly we can use set
+
+# The length of a substring is calculated as - 
+
+
+substring length = endind index - starting index + 1
+
+# The sliding window technique is often used to solve problems that involve subarrays or substrings of a contiguous sequence. 
+# It works by maintaining a window (a subarray or substring) that expands or contracts depending on the condition you're trying to satisfy.
+
+#In this case, we are maintaining a window of unique characters from the string.
+#  The window is defined by two pointers: l (left pointer) and r (right pointer). 
+# The window expands as r moves forward, and if a duplicate character is found, the left pointer l moves forward to eliminate duplicates.
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        charSet = set()
+        l = 0
+        res = 0
+
+        for r in range(len(s)):
+            while s[r] in charSet:
+                charSet.remove(s[l])
+                l +=1 
+            charSet.add(s[r])
+            res = max(res, r - l + 1)
+        return res 
+
+# When given an interval of array, sort it based on the start value, imagine we visualise it into a number line
+
+#The expression below is a sorting key function, which ensures that intervals are sorted by their first element (the start time) in an interval while sorting
+key=lambda i: i[0]
+
+# for example 
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort(key = lambda i : i[0])
+
+
+
+
+
+# output[-1] gives us the last interval, which is a list.
+#output[-1][1] accesses index 1 of that list, which is the end time of the last interval.
+# ex - output = [[1, 6], [8, 10], [15, 18]]
+# this will give 18
+
+# Now given below is an example to solve a problem using left and right pointer 
+
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+
+        l,r = 0,1
+        maxProfit = 0
+
+        while r < len(prices):
+            if prices[l] < prices[r]:
+                profit = prices[r] - prices[l]
+                maxProfit = max(maxProfit, profit)
+            else:
+                l = r
+            r = r+1
+        return maxProfit
+
+# Now on to a graph problem 
+ # Algorithm commonly used - 
+
+1 DFS - 
+Data structures used - Hashset or stack, uses pop, also uses hashmap(dict)
+
+2 BFS - 
+Data structures used - Queue(double ended) and Hashset to detect duplicate nodes so we dont get stuck in a loop, uses popleft
+also uses Hashmap(dict)
+
+3 Union find
+Used to combine togather disjoint sets 
+
+4 Topological Graph 
+A type of DFS where we have an directed acyclic graph 
+Hashset
+
+5 Dijikstra shortest path algorithm 
+Heap or priority queue and hashset
+
+# Coding in graph - 
+ len(grid) gives the number of rows.
+len(grid[0]) gives the number of columns, which is used to navigate and manage the grid's structure.
+
+# to check an element and see if its 1 in a graph where r and c are used in for loop 
+if grid[r][c] == "1":
+
+# In your code you need to initialise bfs in the follwoing , you will also have to use queue 
+def bfs(start, graph):
+    queue = collections.deque()
+    visited = set()
+    
+    queue.append(start)
+    visited.add(start)
+
+    while
+# and then of course write a while loop ahead of it 
+
+# Now we see how to use a depth first search in a graph problem 
+
+# In all recurrsive function, we first look at the base cases 
+
+# Also in DFS understand the difference between recurrsive and iterative 
+
+#recurssive - Recursive DFS (Using Function Calls)
+We let Python's function calls handle the "stack" for us.
+Each function call goes deeper into the graph, and once there are no more neighbors, it "backtracks" automatically.
+
+
+# Iterative - 
+Iterative DFS (Using a Stack Manually)
+Instead of relying on function calls, we use a stack to track what to explore next.
+We manually push and pop nodes like a "to-do" list.
+
+# Recurrsive DFS - Most common syntax
+def dfs(node, graph, visited):
+    if node in visited:  # If already visited, return
+        return
+    visited.add(node)  # Mark node as visited
+    print(node)  # Process node (e.g., print or store result)
+    
+    for neighbor in graph[node]:  # Explore all neighbors
+        dfs(neighbor, graph, visited)  # Recursive call
+
+# Driver code
+visited = set()
+dfs('A', graph, visited)
+
+# Clone graph meaning in a graph problem - 
+# To create a clone of a graph with samw nodes, use hashmap oldtoNew = {} to track
+
+# Now onto trees 
+left, right = dfs(root.left), dfs(root.right)
+
+# Used in trees , this  line calls the dfs function recursively on the left child (root.left) and the right child (root.right) of the current node (root).
+
+# Valid Binary searh tree - A valid binary search tree (BST) is a binary tree that satisfies the BST property, which states that:
+
+#The left subtree of a node contains only nodes with values less than the node’s value.
+#The right subtree of a node contains only nodes with values greater than the node’s value.
+#Both the left and right subtrees must also be binary search trees (i.e., the BST property holds recursively for all nodes).
+
+In the TreeNode class, .val is an instance attribute that stores the value of the node.
+
+used in the below code of a sum 
+
+class Solution:
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        def valid(node, left, right):
+            if not node:
+                return True 
+
+            if not(node.val < right and node.val > left):
+                return False 
+
+            return (valid(node.left, left, node.val) and valid(node.right,node.val , right))
+
+        return valid(root, float("-inf"),float("inf"))
 
